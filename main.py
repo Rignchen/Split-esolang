@@ -75,3 +75,28 @@ if "--Allready_Compiled" not in argv:
 	if len(code) > 0: error("Missing :")
 	code = compiled
 else: code = "".join(i.strip() for i in code.split("\n")).split(":")
+
+## Initialize the memory
+Int: str = "" # chain of characters
+Str: str = "" # chain of numbers
+And: tuple[int, int] = (0, 0) # index, length  index and length of the part of Int or Str that you want to use
+Help: tuple[str,str] = ("","") # value, type   part of Int or Str that you want to use
+
+## Initialize other variables
+is_running: bool = True
+index = 0
+
+## Remove unnecessary variables
+del argv, filename
+try: del compiled, char
+except NameError: pass
+
+## Interpret the code
+def interpret(command: str, arguments: list[str]) -> None:
+	pass
+
+## Run the code
+while is_running and len(code) > index >= 0:
+	index += 1
+	instructions = code[-index].split(" ")
+	interpret(instructions[0], instructions[1:])
