@@ -86,6 +86,18 @@ Help: tuple[str,str] = ("","") # value, type   part of Int or Str that you want 
 is_running: bool = True
 index = 0
 
+## Make the functions
+def set_help(value: str, type: str) -> None:
+	"""Sets Help to value and type to type."""
+	global Help
+	match type.title():
+		case "Int":
+			Help = (str(value), "Int")
+		case "Str":
+			Help = (int(value,7),"Str")
+		case _:
+			error(f"Invalid type: {type}")
+
 ## Remove unnecessary variables
 del argv, filename
 try: del compiled, char
@@ -93,10 +105,16 @@ except NameError: pass
 
 ## Interpret the code
 def interpret(command: str, arguments: list[str]) -> None:
-	pass
+	global is_running, Int, Str, And, Help
+	match command.title():
+		case "Help":
+			"""set the value and type of Help"""
+			set_help(arguments[0], arguments[1])
 
 ## Run the code
 while is_running and len(code) > index >= 0:
 	index += 1
 	instructions = code[-index].split(" ")
-	interpret(instructions[0], instructions[1:])
+	try: interpret(instructions[0], instructions[1:])
+	except: error("An error happend")
+	print(Help)
