@@ -105,7 +105,7 @@ def add_to_memory(memory: str) -> None:
 	global Int, Str, Help
 	match memory.title():
 		case "Str":
-			if Help[0].startswith("-"):
+			if int(Help[0]) < 0:
 				Str += Help[0].removeprefix("-")
 				if Str.startswith("-"): Str = Str.removeprefix("-")
 				else: Str = "-" + Str
@@ -133,6 +133,17 @@ def set_and_index(index: int) -> None:
 	"""Sets the index of and to index."""
 	global And
 	And = (index, And[1])
+def numberToBase(number: int, base: int) -> str:
+    if number == 0:
+        return "0"
+    digits = []
+    while number:
+        digits.append(int(number % base))
+        number //= base
+    return "".join([
+		str(digit) if digit < 10 else chr(digit + ord("A") - 10)
+		for digit in digits[::-1]
+		])
 
 ## Remove unnecessary variables
 del argv, filename
@@ -159,6 +170,13 @@ def interpret(command: str, arguments: list[str]) -> None:
 		case "Help":
 			"""set the value and type of Help"""
 			set_help(" ".join(arguments[0:-1]), arguments[-1])
+		case "Display":
+			"""Displays Help"""
+			match Help[1]:
+				case "Int":
+					print(Help[0])
+				case "Str":
+					print(numberToBase(int(Help[0]), 11))
 
 ## Run the code
 while is_running and len(code) > index >= 0:
@@ -167,8 +185,10 @@ while is_running and len(code) > index >= 0:
 	try: interpret(instructions[0], instructions[1:])
 	except: error("An error happend")
 
+	print(numberToBase(21, 7))
+
 	# TODO Debug
-	print("Help:", Help)
-	print("And:", And)
-	print("Str:", Str)
-	print("Int:", Int)
+	# print("Help:", Help)
+	# print("And:", And)
+	# print("Str:", Str)
+	# print("Int:", Int)
