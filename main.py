@@ -23,8 +23,11 @@ if not "-k" in argv:
 
 def error(message):
 	"""Prints an error message in red and exits the program."""
-	print("\033[91m" + message + "\033[0m")
-	exit(1)
+	global is_running
+	if is_running:
+		print("\033[91m" + message + "\033[0m")
+		is_running = False
+		exit(1)
 
 ## Get the code
 # Get the code from the file or from the user
@@ -87,6 +90,21 @@ is_running: bool = True
 index = 0
 
 ## Make the functions
+def add_to_memory(memory: str) -> None:
+	"""Adds Help to Int or Str."""
+	global Int, Str, Help
+	match memory.title():
+		case "Str":
+			if Help[0].startswith("-"):
+				Str += Help[0].removeprefix("-")
+				if Str.startswith("-"): Str = Str.removeprefix("-")
+				else: Str = "-" + Str
+			else:
+				Str += Help[0]
+		case "Int":
+			Int += Help[0]
+		case _:
+			error(f"Invalid memory: {memory}")
 def set_help(value: str, type: str) -> None:
 	"""Sets Help to value and type to type."""
 	global Help
@@ -94,12 +112,12 @@ def set_help(value: str, type: str) -> None:
 		case "Int":
 			Help = (str(value), "Int")
 		case "Str":
-			Help = (int(value,7),"Str")
+			Help = (str(int(value,7)),"Str")
 		case _:
 			error(f"Invalid type: {type}")
 
 ## Remove unnecessary variables
-del argv, filename
+del filename
 try: del compiled, char
 except NameError: pass
 
@@ -107,6 +125,10 @@ except NameError: pass
 def interpret(command: str, arguments: list[str]) -> None:
 	global is_running, Int, Str, And, Help
 	match command.title():
+		case "Put":
+			"""Adds a value at the end of Int or Str\n
+			if help is an int and the value is < 0, the whole int is multiplied by -1"""
+			add_to_memory(arguments[0])
 		case "Help":
 			"""set the value and type of Help"""
 			set_help(arguments[0], arguments[1])
@@ -117,4 +139,9 @@ while is_running and len(code) > index >= 0:
 	instructions = code[-index].split(" ")
 	try: interpret(instructions[0], instructions[1:])
 	except: error("An error happend")
-	print(Help)
+
+	# TODO Debug
+	print("Help:", Help)
+	print("And:", And)
+	print("Str:", Str)
+	print("Int:", Int)
