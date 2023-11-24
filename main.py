@@ -170,6 +170,18 @@ def interpret(command: str, arguments: list[str]) -> None:
 		case "Help":
 			"""set the value and type of Help"""
 			set_help(" ".join(arguments[0:-1]), arguments[-1])
+		case "Reverse":
+			"""Reverses Help"""
+			match Help[1]:
+				case "Str":
+					Help = (str(-int(Help[0])), "Str")
+				case "Int":
+					Help = (
+						"".join([
+							char.lower() if char.isupper() 
+							else char.upper()
+							for char in Help[0]]),
+						"Int")
 		case "Display":
 			"""Displays Help"""
 			match Help[1]:
@@ -185,10 +197,8 @@ while is_running and len(code) > index >= 0:
 	try: interpret(instructions[0], instructions[1:])
 	except: error("An error happend")
 
-	print(numberToBase(21, 7))
-
 	# TODO Debug
-	# print("Help:", Help)
-	# print("And:", And)
-	# print("Str:", Str)
-	# print("Int:", Int)
+	print("Help:", Help)
+	print("And:", And)
+	print("Str:", Str)
+	print("Int:", Int)
