@@ -27,7 +27,7 @@ def error(message):
 	if is_running:
 		print("\033[91m" + message + "\033[0m")
 		is_running = False
-		exit(1)
+	exit(1)
 
 ## Get the code
 # Get the code from the file or from the user
@@ -115,9 +115,17 @@ def set_help(value: str, type: str) -> None:
 			Help = (str(int(value,7)),"Str")
 		case _:
 			error(f"Invalid type: {type}")
+def set_and_length(length: int) -> None:
+	"""Sets the length of and to length."""
+	global And
+	And = (And[0], length)
+def set_and_index(index: int) -> None:
+	"""Sets the index of and to index."""
+	global And
+	And = (index, (And[1]))
 
 ## Remove unnecessary variables
-del filename
+del argv, filename
 try: del compiled, char
 except NameError: pass
 
@@ -129,6 +137,12 @@ def interpret(command: str, arguments: list[str]) -> None:
 			"""Adds a value at the end of Int or Str\n
 			if help is an int and the value is < 0, the whole int is multiplied by -1"""
 			add_to_memory(arguments[0])
+		case "Ilen":
+			"""Sets the Index of And"""
+			set_and_index(int(arguments[0]))
+		case "Ipset":
+			"""Sets the length of And"""
+			set_and_length(int(arguments[0]))
 		case "Help":
 			"""set the value and type of Help"""
 			set_help(arguments[0], arguments[1])
