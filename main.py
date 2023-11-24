@@ -90,6 +90,16 @@ is_running: bool = True
 index = 0
 
 ## Make the functions
+def get(memory: str) -> None:
+	"""Returns the part of Int or Str that is currently used."""
+	global Int, Str, And, Help
+	match memory.title():
+		case "Int":
+			Help = (Int[And[0]:And[0]+And[1]],"Int")
+		case "Str":
+			Help = (Str[And[0]:And[0]+And[1]],"Str")
+		case _:
+			error(f"Invalid memory: {memory}")
 def add_to_memory(memory: str) -> None:
 	"""Adds Help to Int or Str."""
 	global Int, Str, Help
@@ -122,7 +132,7 @@ def set_and_length(length: int) -> None:
 def set_and_index(index: int) -> None:
 	"""Sets the index of and to index."""
 	global And
-	And = (index, (And[1]))
+	And = (index, And[1])
 
 ## Remove unnecessary variables
 del argv, filename
@@ -133,6 +143,9 @@ except NameError: pass
 def interpret(command: str, arguments: list[str]) -> None:
 	global is_running, Int, Str, And, Help
 	match command.title():
+		case "Split":
+			"""Store the part of int/str given by And in Help."""
+			get(arguments[0])
 		case "Put":
 			"""Adds a value at the end of Int or Str\n
 			if help is an int and the value is < 0, the whole int is multiplied by -1"""
@@ -145,7 +158,7 @@ def interpret(command: str, arguments: list[str]) -> None:
 			set_and_length(int(arguments[0]))
 		case "Help":
 			"""set the value and type of Help"""
-			set_help(arguments[0], arguments[1])
+			set_help(" ".join(arguments[0:-1]), arguments[-1])
 
 ## Run the code
 while is_running and len(code) > index >= 0:
