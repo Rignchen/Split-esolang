@@ -83,7 +83,7 @@ else: code = "".join(i.strip() for i in code.split("\n")).split(":")
 Int: str = "" # chain of characters
 Str: str = "" # chain of numbers
 And: tuple[int, int] = (0, 0) # index, length  index and length of the part of Int or Str that you want to use
-Help: tuple[str,str] = ("","") # value, type   part of Int or Str that you want to use
+Help: tuple[str,str] = ("","Int") # value, type   part of Int or Str that you want to use
 
 ## Initialize other variables
 is_running: bool = True
@@ -282,6 +282,13 @@ def interpret(command: str, arguments: list[str]) -> None:
 				case "Str":
 					if Help[0].startswith("-"):
 						interpret(arguments[0], arguments[1:])
+		case "Move":
+			"""Move the code to the value in Help, if help is Int, it will move according to the sum of the arguments\n
+			but it will also trigger every Move it finds"""
+			global index
+			match Help[1]:
+				case "Str":
+					index = int(Help[0])
 
 ## Run the code
 while is_running and len(code) > index >= 0:
@@ -291,7 +298,24 @@ while is_running and len(code) > index >= 0:
 	except: error("An error happend")
 
 	# TODO Debug
-	#print("Help:", Help)
-	#print("And:", And)
-	#print("Str:", Str)
-	#print("Int:", Int)
+	print("Help:", Help)
+	print("And:", And)
+	print("Str:", Str)
+	print("Int:", Int)
+
+"""
+commands:
+
+Help| 		set the value and type of Help to the value and type you want| STR values are given in base 7| 						Help 14 Str (put 11 in Help):
+Put| 		Adds a value at the end of Int or Str|| 																			Put Str (put the value of Help in Str):
+Ilen| 		Sets the Index of And to the value you want|| 																		Ilen 5 (put 5 as index of And):
+Ipset| 		Sets the length of And to the value you want|| 																		Ipset 8 (put 8 as length of And):
+Split| 		Store the part of int/str given by And in Help|| 																	Split Int (overide Help with the characters of Int selected by And):
+Display| 	Display content of Help| STR: content is display as base 11| 														Display
+Add| 		Split the content of Help and make the sum of the 2 parts| INT, convert the content to ascii and back| 				Add
+Reduce| 	Split the content of Help and make the substraction of the 2 parts| INT, convert the content to ascii and back| 	Reduce
+Multiply| 	Split the content of Help and make the multiplication of the 2 parts| INT, convert the content to ascii and back| 	Multiply
+Mod| 		Split the content of Help and make the modulo of the 2 parts| INT, convert the content to ascii and back| 			Mod
+Reverse| 	STR: multiply by -1 INT: upper case to lower case and lower case to upper case|| 									Reverse
+If| 		Check if Help is < 0| STR: use the sum of the ascii value of the characters| 										If Display (Print Help if Help < 0):
+"""
