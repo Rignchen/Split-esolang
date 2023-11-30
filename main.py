@@ -211,6 +211,10 @@ def numberToBase(number: int, base: int) -> str:
 		str(digit) if digit < 10 else chr(digit + ord("A") - 10)
 		for digit in digits[::-1]
 		])
+def get_sum_value(string: list[str]) -> int:
+	value = 0
+	for i in string: value += ord(i)
+	return value
 
 ## Remove unnecessary variables
 del argv, filename
@@ -272,6 +276,9 @@ def interpret(command: str, arguments: list[str]) -> None:
 			"""If Str and Help is < 0, it runs the instruction after it\n
 			If Int and sum(chr(Help)) < sum(char(argument[0])) run next value"""
 			match Help[1]:
+				case "Int":
+					if get_sum_value(Help[0]) < get_sum_value(arguments[0]):
+						interpret(arguments[1], arguments[2:])
 				case "Str":
 					if Help[0].startswith("-"):
 						interpret(arguments[0], arguments[1:])
