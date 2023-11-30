@@ -1,2 +1,39 @@
+instructions are readed by the interpreter
+word overflows in instructions are ignored
+
+compilation:
+6  Y  '  &  a 9  <- code
+6 89 39 38 97 9  <- ASCII
+6 58 08 07 66 9  <- -31 (or -r flag)
+65 80 80 76 69   <- split in half
+A  P  P  L  E    <- ASCII
 6Y'&a9 -> APPLE
+
+have a : at 2/3 of each instructions
 6Y$w&a9 -> AP:PLE -> APPLE
+
+you can also use the flag --Allready_Compiled to write the code allready compiled in the file with instructions separated by a : at the end of it
+for better readability eveerything I'll say after this will be with the flag --Allready_Compiled
+
+storage:
+this language has 4 variables
+- Str: used to store a chain of numbers
+- Int: used to store a chain of characters
+- Help: the only variable that can be used as a value in most of the commands
+- And: an index and a length used to select a part of the variable Str or the variable Int
+
+"""
+commands:
+
+Help| 		set the value and type of Help to the value and type you want| STR values are given in base 7| 						Help 14 Str (put 11 in Help):
+Put| 		Adds a value at the end of Int or Str|| 																			Put Str (put the value of Help in Str):
+Ilen| 		Sets the Index of And to the value you want|| 																		Ilen 5 (put 5 as index of And):
+Ipset| 		Sets the length of And to the value you want|| 																		Ipset 8 (put 8 as length of And):
+Split| 		Store the part of int/str given by And in Help|| 																	Split Int (overide Help with the characters of Int selected by And):
+Display| 	Display content of Help| STR: content is display as base 11| 														Display
+Add| 		Split the content of Help and make the sum of the 2 parts| INT, convert the content to ascii and back| 				Add
+Reduce| 	Split the content of Help and make the substraction of the 2 parts| INT, convert the content to ascii and back| 	Reduce
+Multiply| 	Split the content of Help and make the multiplication of the 2 parts| INT, convert the content to ascii and back| 	Multiply
+Mod| 		Split the content of Help and make the modulo of the 2 parts| INT, convert the content to ascii and back| 			Mod
+Reverse| 	STR: multiply by -1 INT: upper case to lower case and lower case to upper case|| 									Reverse
+"""
