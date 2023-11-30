@@ -199,13 +199,15 @@ def calculate(operation: str) -> None:
 							value[1]),
 						"Str")
 def numberToBase(number: int, base: int) -> str:
-    if number == 0:
-        return "0"
-    digits = []
-    while number:
-        digits.append(int(number % base))
-        number //= base
-    return "".join([
+	if number == 0:
+		return "0"
+	if number < 0:
+		return "-" + numberToBase(-number, base)
+	digits = []
+	while number:
+		digits.append(int(number % base))
+		number //= base
+	return "".join([
 		str(digit) if digit < 10 else chr(digit + ord("A") - 10)
 		for digit in digits[::-1]
 		])
