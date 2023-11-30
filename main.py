@@ -133,6 +133,71 @@ def set_and_index(index: int) -> None:
 	"""Sets the index of and to index."""
 	global And
 	And = (index, And[1])
+def calculate(operation: str) -> None:
+	"""Calculates Help with operation, store the result in Help"""
+	global Help
+	length: int = len(Help[0])
+	match Help[1]:
+		case "Int":
+			value = (
+				"".join(str(ord(char)) for char in Help[0][:length//2]),
+				"".join(str(ord(char)) for char in Help[0][length//2:])
+			)
+			match operation:
+				case "+":
+					Help = (
+						chr(
+							int(value[0]) +
+							int(value[1])),
+						"Int")
+				case "-":
+					Help = (
+						chr(
+							int(value[1]) -
+							int(value[0])),
+						"Int")
+				case "*":
+					Help = (
+						chr(
+							int(value[0]) *
+							int(value[1])),
+						"Int")
+				case "%":
+					Help = (
+						chr(
+							int(value[0]) %
+							int(value[1])),
+						"Int")
+		case "Str":
+			value = (
+				int(Help[0][:length//2]),
+				int(Help[0][length//2:])
+			)
+			match operation:
+				case "+":
+					Help = (
+						str(
+							value[0] +
+							value[1]),
+						"Str")
+				case "-":
+					Help = (
+						str(
+							value[0] -
+							value[1]),
+						"Str")
+				case "*":
+					Help = (
+						str(
+							value[0] *
+							value[1]),
+						"Str")
+				case "%":
+					Help = (
+						str(
+							value[0] %
+							value[1]),
+						"Str")
 def numberToBase(number: int, base: int) -> str:
     if number == 0:
         return "0"
@@ -167,6 +232,18 @@ def interpret(command: str, arguments: list[str]) -> None:
 		case "Ipset":
 			"""Sets the length of And"""
 			set_and_length(int(arguments[0]))
+		case "Add":
+			"""Adds the value to Help"""
+			calculate("+")
+		case "Reduce":
+			"""Substracts the value to Help"""
+			calculate("-")
+		case "Multiply":
+			"""Multiplies the value to Help"""
+			calculate("*")
+		case "Mod":
+			"""Modulos the value to Help"""
+			calculate("%")
 		case "Help":
 			"""set the value and type of Help"""
 			set_help(" ".join(arguments[0:-1]), arguments[-1])
