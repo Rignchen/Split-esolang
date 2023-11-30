@@ -268,6 +268,13 @@ def interpret(command: str, arguments: list[str]) -> None:
 					print(Help[0])
 				case "Str":
 					print(numberToBase(int(Help[0]), 11))
+		case "If":
+			"""If Str and Help is < 0, it runs the instruction after it\n
+			If Int and sum(chr(Help)) < sum(char(argument[0])) run next value"""
+			match Help[1]:
+				case "Str":
+					if Help[0].startswith("-"):
+						interpret(arguments[0], arguments[1:])
 
 ## Run the code
 while is_running and len(code) > index >= 0:
@@ -277,7 +284,7 @@ while is_running and len(code) > index >= 0:
 	except: error("An error happend")
 
 	# TODO Debug
-	print("Help:", Help)
-	print("And:", And)
-	print("Str:", Str)
-	print("Int:", Int)
+	#print("Help:", Help)
+	#print("And:", And)
+	#print("Str:", Str)
+	#print("Int:", Int)
