@@ -240,6 +240,10 @@ except NameError: pass
 def interpret(command: str, arguments: list[str]) -> None:
 	global is_running, Int, Str, And, Help
 	match command.title():
+		case "Run":
+			"""Runs the Help as code."""
+			temp = Help[0].title().split(" ")
+			interpret(temp[0], temp[1:])
 		case "Split":
 			"""Store the part of int/str given by And in Help."""
 			get(arguments[0])
@@ -316,7 +320,7 @@ while is_running and len(code) > index >= 0:
 	# print("And:", And)
 	# print("Str:", Str)
 	# print("Int:", Int)
-	print("Index:", index)
+	# print("Index:", index)
 
 	instructions = code[-index].split(" ")
 	try: interpret(instructions[0], instructions[1:])
