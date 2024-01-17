@@ -115,14 +115,14 @@ def add_to_memory(memory: str) -> None:
 			Int += Help[0]
 		case _:
 			error(f"Invalid memory: {memory}")
-def set_help(value: str, type: str) -> None:
+def set_help(value: str, type: str, str_base: int = 0) -> None:
 	"""Sets Help to value and type to type."""
 	global Help
 	match type.title():
 		case "Int":
 			Help = (str(value), "Int")
 		case "Str":
-			Help = (str(int(value,7)),"Str")
+			Help = (str(int(value,str_base)),"Str")
 		case _:
 			error(f"Invalid type: {type}")
 def set_and_length(length: int) -> None:
@@ -271,7 +271,7 @@ def interpret(command: str, arguments: list[str]) -> None:
 			calculate("%")
 		case "Help":
 			"""set the value and type of Help"""
-			set_help(" ".join(arguments[0:-1]), arguments[-1])
+			set_help(" ".join(arguments[0:-1]), arguments[-1], 7)
 		case "Reverse":
 			"""Reverses Help"""
 			match Help[1]:
@@ -343,4 +343,5 @@ Mod| 		Split the content of Help and make the modulo of the 2 parts| INT, conver
 Reverse| 	STR: multiply by -1 INT: upper case to lower case and lower case to upper case|| 																											Reverse
 If| 		Check if Help is < 0| STR: use the sum of the ascii value of the characters| 																												If Display (Print Help if Help < 0)
 Move| 		Move the currently executed instruction to the value in Help| STR: use the number written next to the instruction\nfollow every Move it finds on the way if it goes in the same direction| 	Move 1 (move to the first instruction)
+Run|		Execute the code from the Help variables||																																					Run
 """
