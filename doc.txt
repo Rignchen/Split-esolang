@@ -25,15 +25,19 @@ this language has 4 variables
 """
 commands:
 
-Help| 		set the value and type of Help to the value and type you want| STR values are given in base 7| 						Help 14 Str (put 11 in Help):
-Put| 		Adds a value at the end of Int or Str|| 																			Put Str (put the value of Help in Str):
-Ilen| 		Sets the Index of And to the value you want|| 																		Ilen 5 (put 5 as index of And):
-Ipset| 		Sets the length of And to the value you want|| 																		Ipset 8 (put 8 as length of And):
-Split| 		Store the part of int/str given by And in Help|| 																	Split Int (overide Help with the characters of Int selected by And):
-Display| 	Display content of Help| STR: content is display as base 11| 														Display
-Add| 		Split the content of Help and make the sum of the 2 parts| INT, convert the content to ascii and back| 				Add
-Reduce| 	Split the content of Help and make the substraction of the 2 parts| INT, convert the content to ascii and back| 	Reduce
-Multiply| 	Split the content of Help and make the multiplication of the 2 parts| INT, convert the content to ascii and back| 	Multiply
-Mod| 		Split the content of Help and make the modulo of the 2 parts| INT, convert the content to ascii and back| 			Mod
-Reverse| 	STR: multiply by -1 INT: upper case to lower case and lower case to upper case|| 									Reverse
+Help| 		set the value and type of Help to the value and type you want| STR values are given in base 7| 																								Help 14 Str (put 11 in Help)
+Put| 		Adds a value at the end of Int or Str|| 																																					Put Str (put the value of Help in Str)
+Ilen| 		Sets the Index of And to the value you want|| 																																				Ilen 5 (put 5 as index of And)
+Ipset| 		Sets the length of And to the value you want|| 																																				Ipset 8 (put 8 as length of And)
+Split| 		Store the part of int/str given by And in Help|| 																																			Split Int (overide Help with the characters of Int selected by And)
+Display| 	Display content of Help| STR: content is display as base 11| 																																Display
+In| 		Set the value and type of Help from the user's input| STR: content is input as base 10| 																									In Str (put the user's input in Help)
+Add| 		Split the content of Help and make the sum of the 2 parts| INT, convert the content to ascii and back| 																						Add
+Reduce| 	Split the content of Help and make the substraction of the 2 parts| INT, convert the content to ascii and back| 																			Reduce
+Multiply| 	Split the content of Help and make the multiplication of the 2 parts| INT, convert the content to ascii and back| 																			Multiply
+Mod| 		Split the content of Help and make the modulo of the 2 parts| INT, convert the content to ascii and back| 																					Mod
+Reverse| 	STR: multiply by -1 INT: upper case to lower case and lower case to upper case|| 																											Reverse
+If| 		Check if Help is < 0| STR: use the sum of the ascii value of the characters| 																												If Display (Print Help if Help < 0)
+Move| 		Move the currently executed instruction to the value in Help| STR: use the number written next to the instruction\nfollow every Move it finds on the way if it goes in the same direction| 	Move 1 (move to the first instruction)
+Run|		Execute the code from the Help variables||																																					Run
 """

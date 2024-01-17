@@ -33,7 +33,7 @@ def error(message):
 # Get the code from the file or from the user
 if len(argv) >= 2:
 	filename = argv[1]
-	if filename.split(".")[-1] not in ["split", "fu", "fuckyou", "coddingsucks"]:
+	if filename.split(".")[-1] not in ["split", "fu", "", "fuckyou", "coddingsucks"]:
 		error(f"Unknown extension: {filename.split('.')[-1]}")
 	try:
 		with open(filename, "r") as file:
@@ -115,7 +115,7 @@ def add_to_memory(memory: str) -> None:
 			Int += Help[0]
 		case _:
 			error(f"Invalid memory: {memory}")
-def set_help(value: str, type: str, str_base: int = 0) -> None:
+def set_help(value: str, type: str, str_base: int = 10) -> None:
 	"""Sets Help to value and type to type."""
 	global Help
 	match type.title():
@@ -272,6 +272,9 @@ def interpret(command: str, arguments: list[str]) -> None:
 		case "Help":
 			"""set the value and type of Help"""
 			set_help(" ".join(arguments[0:-1]), arguments[-1], 7)
+		case "In":
+			"""set the value and type of Help from the user's input"""
+			set_help(input(), arguments[0])
 		case "Reverse":
 			"""Reverses Help"""
 			match Help[1]:
@@ -336,6 +339,7 @@ Ilen| 		Sets the Index of And to the value you want|| 																										
 Ipset| 		Sets the length of And to the value you want|| 																																				Ipset 8 (put 8 as length of And)
 Split| 		Store the part of int/str given by And in Help|| 																																			Split Int (overide Help with the characters of Int selected by And)
 Display| 	Display content of Help| STR: content is display as base 11| 																																Display
+In| 		Set the value and type of Help from the user's input| STR: content is input as base 10| 																									In Str (put the user's input in Help)
 Add| 		Split the content of Help and make the sum of the 2 parts| INT, convert the content to ascii and back| 																						Add
 Reduce| 	Split the content of Help and make the substraction of the 2 parts| INT, convert the content to ascii and back| 																			Reduce
 Multiply| 	Split the content of Help and make the multiplication of the 2 parts| INT, convert the content to ascii and back| 																			Multiply
