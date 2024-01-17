@@ -21,6 +21,10 @@ if not "-k" in argv:
 	from os import system, name
 	system("cls" if name == "ntf" else "clear")
 
+## Initialize main variables
+is_running: bool = True
+index = 0
+
 def error(message):
 	"""Prints an error message in red and exits the program."""
 	global is_running
@@ -52,42 +56,66 @@ else:
 		except KeyboardInterrupt:
 			break
 	code = "".join(code)[:-1]
+
+if len(code) <= 3: error("Not enougth character in the file")
+
 # Compile the code to be readable
-if "--Allready_Compiled" not in argv:
-	# compile the code
-	try: reduction = int(argv[argv.index("-r") + 1]) if "-r" in argv else 31
-	except ValueError: error("Reduction should be a number")
+if "--Allready_Compiled" in argv:
+	code = "".join(i.strip() for i in code.split("\n")).split(":")
+else:
+	# test if reduction is vallid
+	if "-r" in argv:
+		i = argv.index("-r")
+		if i == len(argv) - 1:
+			error("Reduction should be speciied")
+		elif argv[i+1].isdigit():
+			reduction = argv[i+1]
+		else:
+			error("Reduction should be a number")
+	else:
+		reduction = 31
+
+	# read the code and transform it into numbers
 	compiled = code[0]
 	for char in code[1:-1]:
-		compiled += str(ord(char) - reduction).zfill(2) if reduction <= ord(char) < (100 + reduction) else error(f"Invalid character: {char}")
+		if reduction <= ord(char) < (100 + reduction):
+			compiled += str(ord(char) - reduction).zfill(2) 
+		else:
+			error(f"Invalid character: {char}")
 	compiled += code[-1]
 
-	# decript the compiled code
-	code: list[str] = []
-	for i in range(0,len(compiled),2):
-		code.append(chr(int(compiled[i:i+2])))
+	# split the code in instructions
+	# instructions are separated by a : at 1/3 of the instruction
+	# every character are 2 numbers long
+	# the ascii value of ":" is 58
+	code = []
+	num = 2
+	while len(compiled) > 0:
+		if len(compiled) < num*3: 
+			error("Missing ':'")
+		if compiled[num:num+2] == "58":
+			code.append(compiled[:num] + compiled[num+2:num*3])
+			compiled = compiled[num*3:]
+			num = 2
+		else:
+			num += 2
+	
+	# turn the numbers back to characters
+	code = ["".join([chr(int(i[j:j+2])) for j in range(0,len(i),2)]) for i in code]
+	
 
-	# Split the code
-	compiled = []
-	while ":" in code:
-		index = code.index(":")
-		if index*3-1 > len(code): error("Missing : potato")
-		compiled.append("".join(code[:index*3]).replace(":", "", 1))
-		if ":" in compiled[-1]: error("Too many :")
-		code = code[index*3:]
-	if len(code) > 0: error("Missing :")
-	code = compiled
-else: code = "".join(i.strip() for i in code.split("\n")).split(":")
+	exit()
+	# Remove unnecessary variables
+	del compiled, char, num, reduction
+
+## Remove unnecessary variables
+del argv, filename
 
 ## Initialize the memory
 Int: str = "" # chain of characters
 Str: str = "" # chain of numbers
 And: tuple[int, int] = (0, 0) # index, length  index and length of the part of Int or Str that you want to use
 Help: tuple[str,str] = ("","") # value, type   part of Int or Str that you want to use
-
-## Initialize other variables
-is_running: bool = True
-index = 0
 
 ## Make the functions
 def get(memory: str) -> None:
@@ -230,11 +258,6 @@ def move(direction: int):
 			if (value - index) * (direction - index) > 0:
 				direction = value
 	index -= 1
-
-## Remove unnecessary variables
-del argv, filename
-try: del compiled, char
-except NameError: pass
 
 ## Interpret the code
 def interpret(command: str, arguments: list[str]) -> None:
