@@ -2,15 +2,29 @@ instructions are readed by the interpreter
 word overflows in instructions are ignored
 
 compilation:
-6  Y  '  &  a 9  <- code
-6 89 39 38 97 9  <- ASCII
-6 58 08 07 66 9  <- -31 (or -r flag)
-65 80 80 76 69   <- split in half
-A  P  P  L  E    <- ASCII
-6Y'&a9 -> APPLE
+1#nb68
+1  #  n  b  6 8
+1 21 71 75 09 8
+12 17 17 50 98
+A  P  P  L  E
+1#nb68 -> APPLE
 
-have a : at 2/3 of each instructions
-6Y$w&a9 -> AP:PLE -> APPLE
+the custom table in question is the following:
+|   |X0 |X1 |X2 |X3 |X4 |X5 |X6 |X7 |X8 |X9 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0X|   | ' | , | C | J | & | G | ÷ | " | 6 |
+| 1X| 4 | i | A | p | K | y | T | P | } | ; |
+| 2X| q | # | d | F | 1 | s | M | v | V | Z |
+| 3X| @ | 2 | - | w | ! | . | I | < | B | ~ |
+| 4X| 7 | e | 3 | Q | | | x | t | f | ç | 0 |
+| 5X| L | a | g | = | 5 | € | r | _ | l | : |
+| 6X| m | D | S | \ | U | + | ] | N | ) | ^ |
+| 7X| n | R | $ | X | % | b | ? | [ | h | 9 |
+| 8X| O | µ | o | / |' '| Y | 8 | * | W | j |
+| 9X| H | c | > | ( | k | z | { | ` | E | u |
+
+have a : directly after 1/3 of each instructions
+1#bcb68 -> AP:PLE -> APPLE
 
 you can also use the flag --Allready_Compiled to write the code allready compiled in the file with instructions separated by a : at the end of it
 for better readability eveerything I'll say after this will be with the flag --Allready_Compiled
@@ -22,9 +36,7 @@ this language has 4 variables
 - Help: the only variable that can be used as a value in most of the commands
 - And: an index and a length used to select a part of the variable Str or the variable Int
 
-"""
 commands:
-
 Help| 		set the value and type of Help to the value and type you want| STR values are given in base 7| 																								Help 14 Str (put 11 in Help)
 Put| 		Adds a value at the end of Int or Str|| 																																					Put Str (put the value of Help in Str)
 Ilen| 		Sets the Index of And to the value you want|| 																																				Ilen 5 (put 5 as index of And)
@@ -32,12 +44,11 @@ Ipset| 		Sets the length of And to the value you want|| 																								
 Split| 		Store the part of int/str given by And in Help|| 																																			Split Int (overide Help with the characters of Int selected by And)
 Display| 	Display content of Help| STR: content is display as base 11| 																																Display
 In| 		Set the value and type of Help from the user's input| STR: content is input as base 10| 																									In Str (put the user's input in Help)
-Add| 		Split the content of Help and make the sum of the 2 parts| INT, convert the content to ascii and back| 																						Add
-Reduce| 	Split the content of Help and make the substraction of the 2 parts| INT, convert the content to ascii and back| 																			Reduce
-Multiply| 	Split the content of Help and make the multiplication of the 2 parts| INT, convert the content to ascii and back| 																			Multiply
-Mod| 		Split the content of Help and make the modulo of the 2 parts| INT, convert the content to ascii and back| 																					Mod
+Add| 		Split the content of Help and make the sum of the 2 parts| INT, convert the content to custom_table and back| 																						Add
+Reduce| 	Split the content of Help and make the substraction of the 2 parts| INT, convert the content to custom_table and back| 																			Reduce
+Multiply| 	Split the content of Help and make the multiplication of the 2 parts| INT, convert the content to custom_table and back| 																			Multiply
+Mod| 		Split the content of Help and make the modulo of the 2 parts| INT, convert the content to custom_table and back| 																					Mod
 Reverse| 	STR: multiply by -1 INT: upper case to lower case and lower case to upper case|| 																											Reverse
-If| 		Check if Help is < 0| STR: use the sum of the ascii value of the characters| 																												If Display (Print Help if Help < 0)
+If| 		Check if Help is < 0| STR: use the sum of the custom_table value of the characters| 																												If Display (Print Help if Help < 0)
 Move| 		Move the currently executed instruction to the value in Help| STR: use the number written next to the instruction\nfollow every Move it finds on the way if it goes in the same direction| 	Move 1 (move to the first instruction)
 Run|		Execute the code from the Help variables||																																					Run
-"""
