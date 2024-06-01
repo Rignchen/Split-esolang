@@ -59,6 +59,7 @@ if len(argv) >= 2:
 	try:
 		with open(filename, "r", encoding="utf-8") as file:
 			code = file.read()
+		code = "".join(code.split("\n"))
 	except FileNotFoundError:
 		error(f"File not found: {filename}")
 	except PermissionError:
@@ -78,7 +79,7 @@ if len(code) <= 3: error("Not enougth character in the file")
 
 # Compile the code to be readable
 if "--Allready_Compiled" in argv:
-	code = "".join(i.strip() for i in code.split("\n")).split(":")
+	code = code.split(":")
 else:
 	# read the code and transform it into numbers
 	compiled = code[0]
