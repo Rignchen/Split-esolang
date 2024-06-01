@@ -27,14 +27,14 @@ if not "-k" in argv:
 	from os import system, name
 	system("cls" if name == "ntf" else "clear")
 
-## Custom chr & ord
+## Custom chr & ord functions, used for the compilation part
 custom_table = ['', "'", ',', 'C', 'J', '&', 'G', '÷', '"', '6', '4', 'i', 'A', 'p', 'K', 'y', 'T', 'P', '}', ';', 'q', '#', 'd', 'F', '1', 's', 'M', 'v', 'V', 'Z', '@', '2', '-', 'w', '!', '.', 'I', '<', 'B', '~', '7', 'e', '3', 'Q', '|', 'x', 't', 'f', 'ç', '0', 'L', 'a', 'g', '=', '5', '€', 'r', '_', 'l', ':', 'm', 'D', 'S', '\\', 'U', '+', ']', 'N', ')', '^', 'n', 'R', '$', 'X', '%', 'b', '?', '[', 'h', '9', 'O', 'µ', 'o', '/', ' ', 'Y', '8', '*', 'W', 'j', 'H', 'c', '>', '(', 'k', 'z', '{', '`', 'E', 'u']
-def ord(char: str) -> int:
+def _ord(char: str) -> int:
 	"""Returns the value of the character."""
 	if char not in custom_table:
 		raise ValueError(f"Invalid character: {char}")
 	return custom_table.index(char)
-def chr(value: int) -> str:
+def _chr(value: int) -> str:
 	"""Returns the character of the value."""
 	return custom_table[value % len(custom_table)]
 
@@ -84,7 +84,7 @@ else:
 	compiled = code[0]
 	for char in code[1:-1]:
 		if char in custom_table:
-			compiled += str(ord(char)).zfill(2) 
+			compiled += str(_ord(char)).zfill(2) 
 		else:
 			error(f"Invalid character: {char}")
 	compiled += code[-1]
@@ -99,7 +99,7 @@ else:
 		if len(compiled) < num*3:
 			dd(code, compiled, num)
 			error("Missing ':'")
-		if compiled[num:num+2] == str(ord(":")):
+		if compiled[num:num+2] == str(_ord(":")):
 			code.append(compiled[:num] + compiled[num+2:num*3])
 			compiled = compiled[num*3:]
 			num = 2
@@ -107,7 +107,7 @@ else:
 			num += 2
 	
 	# turn the numbers back to characters
-	code = ["".join([chr(int(i[j:j+2])) for j in range(0,len(i),2)]) for i in code]
+	code = ["".join([_chr(int(i[j:j+2])) for j in range(0,len(i),2)]) for i in code]
 
 	# Remove unnecessary variables
 	del compiled, char, num
