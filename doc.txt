@@ -112,7 +112,7 @@ Reduce| 	Split the content of Help and make the substraction of the 2 parts| INT
 Multiply| 	Split the content of Help and make the multiplication of the 2 parts| INT, convert the content to ascii and back| 																			Multiply
 Mod| 		Split the content of Help and make the modulo of the 2 parts| INT, convert the content to ascii and back| 																					Mod
 Reverse| 	STR: multiply by -1 INT: upper case to lower case and lower case to upper case|| 																											Reverse
-If| 		Check if Help is < 0| STR: use the sum of the ascii value of the characters| 																												If Display (Print Help if Help < 0)
+If| 		Check if Help is < 0| INT: use the sum of the ascii value of the characters| 																												If Display (Print Help if Help < 0)
 Move| 		Move the currently executed instruction to the value in Help| STR: use the number written next to the instruction\nfollow every Move it finds on the way if it goes in the same direction| 	Move 1 (move to the first instruction)
 Run|		Execute the code from the Help variables||																																					Run
 
