@@ -58,8 +58,7 @@ if len(argv) >= 2:
 		error(f"Unknown extension: {filename.split('.')[-1]}")
 	try:
 		with open(filename, "r", encoding="utf-8") as file:
-			code = file.read()
-		code = "".join(code.split("\n"))
+			code = file.read().replace("\n","").replace("\t","")
 	except FileNotFoundError:
 		error(f"File not found: {filename}")
 	except PermissionError:

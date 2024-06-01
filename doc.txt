@@ -75,6 +75,17 @@ The instructions are executed in reversed order, in this case the first instruct
 
 ---
 
+All line break and tabulations are removed before the code is converted, 
+wich means that you can write your code in multiple lines and add as many tabulations as you want without changing the code
+for example, this code is exactly the same as the previous one
+```
+1#bc
+b6/
+	O's{	RMn'2
+```
+
+---
+
 storage:
 this language has 4 variables
 - Str: used to store a chain of numbers
