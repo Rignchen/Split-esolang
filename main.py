@@ -36,9 +36,7 @@ def ord(char: str) -> int:
 	return custom_table.index(char)
 def chr(value: int) -> str:
 	"""Returns the character of the value."""
-	if value < 0 or value >= len(custom_table):
-		raise ValueError(f"Invalid value: {value}")
-	return custom_table[value]
+	return custom_table[value % len(custom_table)]
 
 ## Initialize main variables
 is_running: bool = True
