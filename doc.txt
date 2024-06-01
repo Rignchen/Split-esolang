@@ -115,3 +115,19 @@ Reverse| 	STR: multiply by -1 INT: upper case to lower case and lower case to up
 If| 		Check if Help is < 0| STR: use the sum of the ascii value of the characters| 																												If Display (Print Help if Help < 0)
 Move| 		Move the currently executed instruction to the value in Help| STR: use the number written next to the instruction\nfollow every Move it finds on the way if it goes in the same direction| 	Move 1 (move to the first instruction)
 Run|		Execute the code from the Help variables||																																					Run
+
+---
+
+code examples:
+
+Hello world:
+```
+6iA€c.O&i
+:JyµB0JyzYWVçWs+oVQNJ6
+```
+Converted version of the code:
+```
+Display
+Help Hello World Int
+```
+
