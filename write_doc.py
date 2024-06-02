@@ -24,11 +24,12 @@ REGEX = {
 	"line": "^-+$",
 	"title": "^#+ .+$",
 	"code": "^```$",
+	"comment": "^\[[^\]\[]+\]: <> \(.+\)$\n", # this is markdown comment syntax
 }
 CONST_TEXT = {
 	"line_break": "<br>"
 }
-file_content = read_file(file).replace("\\n", CONST_TEXT["line_break"]).split("\n")
+file_content = re.sub(REGEX["comment"],"",read_file(file).replace("\\n", CONST_TEXT["line_break"])).split("\n")
 out = []
 index = 0
 
