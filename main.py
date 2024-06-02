@@ -54,7 +54,7 @@ def error(message):
 # Get the code from the file or from the user
 if len(argv) >= 2:
 	filename = argv[1]
-	if filename.split(".")[-1] not in ["split", "fu", "", "fuckyou", "coddingsucks"]:
+	if filename.split(".")[-1] not in ["split", "fu", "", "coddingsucks"]:
 		error(f"Unknown extension: {filename.split('.')[-1]}")
 	try:
 		with open(filename, "r", encoding="utf-8") as file:

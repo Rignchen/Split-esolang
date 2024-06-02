@@ -6,7 +6,7 @@
 |dimensions=One-dimensional languages
 |class=[[:Category:Turing complete|Turing complete]]
 |refimpl=[https://github.com/Rignchen/Split-esolang.git Split]
-|files=<code>.split</code>, 
+|files=<code>.split</code>, <code>.fu</code>, <code>.</code>, <code>.coddingsucks</code>
 }}
 # The language:
 
