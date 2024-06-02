@@ -1,79 +1,101 @@
+# The language:
+
+## Conversion:
+
 The language starts by reading the file and convert the unreadable content in readable content
 to do this, the interpreter will take the value of each characters except the 1st and last ones as 2 digits numbers
 once the interpreter has the value of every characters, it will read them 2 by 2 and convert them in a character
 because the 1st and last characters are not converted, the code get after the conversion won't be the same as the original code
 
-the values of the characters are given by this custom table:
-
-the custom table in question is the following:
+The values of the characters are given by this custom table:
 |   |X0 |X1 |X2 |X3 |X4 |X5 |X6 |X7 |X8 |X9 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 0X|   | ' | , | C | J | & | G | ÷ | " | 6 |
-| 1X| 4 | i | A | p | K | y | T | P | } | ; |
-| 2X| q | # | d | F | 1 | s | M | v | V | Z |
-| 3X| @ | 2 | - | w | ! | . | I | < | B | ~ |
-| 4X| 7 | e | 3 | Q | | | x | t | f | ç | 0 |
-| 5X| L | a | g | = | 5 | € | r | _ | l | : |
-| 6X| m | D | S | \ | U | + | ] | N | ) | ^ |
-| 7X| n | R | $ | X | % | b | ? | [ | h | 9 |
-| 8X| O | µ | o | / |' '| Y | 8 | * | W | j |
-| 9X| H | c | > | ( | k | z | { | ` | E | u |
+| 0X|§  |§' |§, |§C |§J |§& |§G |§÷ |§" |§6 |
+| 1X|§4 |§i |§A |§p |§K |§y |§T |§P |§} |§; |
+| 2X|§q |§# |§d |§F |§1 |§s |§M |§v |§V |§Z |
+| 3X|§@ |§2 |§- |§w |§! |§. |§I |§< |§B |§~ |
+| 4X|§7 |§e |§3 |§Q |§&vert; |§x |§t |§f |§ç |§0 |
+| 5X|§L |§a |§g |§= |§5 |§€ |§r |§_ |§l |§: |
+| 6X|§m |§D |§S |§\ |§U |§+ |§] |§N |§) |§^ |
+| 7X|§n |§R |§$ |§X |§% |§b |§? |§[ |§h |§9 |
+| 8X|§O |§µ |§o |§/ |§ '|§Y |§8 |§* |§W |§j |
+| 9X|§H |§c |§> |§( |§k |§z |§{ |§` |§E |§u |
 
-an example of this conversion is the following:
+An example of this conversion is the following:
+```
 1  #  R  b  6  8
 1 21 71 75 09 8
 12 17 17 50 98
 A  P  P  L  E
 1#Rb68 -> APPLE
+```
 
 ---
+
+### Splitting Instructions:
 
 Once the code is converted, the interpreter will split the code in instructions
 To differenciate instructions, you have to add a : directly after 1/3 of each instructions
 Let's suppose that your instruction is "APPLE", then you have to write "AP:PLE"
 
-This would look like this
+This would look like this:
+```
 1  #  b  c  b  6  8
 1 21 75 91 75 09 8
 12 17 59 17 50 98
 A  P  :  P  L  E
 1#bcb68 -> AP:PLE -> APPLE
+```
 
 ---
 
+### Multiple instructions:
+
 If you had 2 instructions "APPLE" and "BANANA", you would have to write "AP:PLEBA:NANA"
 This would look like this
+```
 1  #  b  c  b  6  /  µ  s  {  R  M  R  2
 1 21 75 91 75 09 83 81 25 96 71 26 71 2
 12 17 59 17 50 98 38 12 59 67 12 67 12
 A  P  :  P  L  E  B  A  :  N  A  N  A
 1#bcb6/µs{RMR2 -> AP:PLEBA:NANA -> APPLE BANANA
+```
 
 ---
 
-the character 00 beeing empty can be used to help get the right number of characters in each instruction
+### Empty characters:
+
+The character 00 beeing empty can be used to help get the right number of characters in each instruction
 in the following example, the "BA:NANA" instruction has 7 characters so you have to add 2 00 to it to get 9 characters, 
 otherwise the interpreter won't know what to do with the A at the end as the instructions wouldn't be filled
 
+```
 AP:PLE|BA:NAN|A
 --:---|--:---|?
+```
 The same thing happends when the instruction is to short instead of too long
+```
 AP:PLE|BAN:ANA??
 --:---|---:-----
+```
 The ? are here to show the missing characters
 
-let's addd them between the 2 first characters and the 2 last characters, note that this is an arbitrary choice, they could be added anywhere as long as the : is at the right place
+Let's addd them between the 2 first characters and the 2 last characters, note that this is an arbitrary choice, they could be added anywhere as long as the : is at the right place
 
+```
 1  #  b  c  b  6  /  O  '  s  {  R  M  n  '  2
 1 21 75 91 75 09 83 80 01 25 96 71 26 70 01 2
 12 17 59 17 50 98 38 00 12 59 67 12 67 00 12
 A  P  :  P  L  E  B  �  A  :  N  A  N  �  A
 1#bcb6/O's{RMn'2 -> AP:PLEB�A:NAN�A -> APPLE BANANA
-the � character is used to show the null byte character as it is normaly not printable
+```
+The � character is used to show the empty character as it is normaly not printable
 
 The instructions are executed in reversed order, in this case the first instruction to be executed is "BANANA" and the last one is "APPLE"
 
 ---
+
+### Line break and tabulations:
 
 All line break and tabulations are removed before the code is converted, 
 wich means that you can write your code in multiple lines and add as many tabulations as you want without changing the code
@@ -86,7 +108,7 @@ b6/
 
 ---
 
-storage:
+## Memory:
 this language has 4 variables
 - Str: used to store a chain of numbers
 - Int: used to store a chain of characters
@@ -95,32 +117,32 @@ this language has 4 variables
 
 ---
 
+## Commands:
+
 Instructions are composed of a command and the values given (or not) to the command
 Commands are case insensitive
 
 Here's the list of commands:
-Command|    Description|    Note|                                                                                                                                                                       Example
-Help| 		set the value and type of Help to the value and type you want| STR values are given in base 7| 																								Help 14 Str (put 11 in Help)
-Put| 		Adds a value at the end of Int or Str|| 																																					Put Str (put the value of Help in Str)
-Ilen| 		Sets the Index of And to the value you want|| 																																				Ilen 5 (put 5 as index of And)
-Ipset| 		Sets the length of And to the value you want|| 																																				Ipset 8 (put 8 as length of And)
-Split| 		Store the part of int/str given by And in Help|| 																																			Split Int (overide Help with the characters of Int selected by And)
-Display| 	Display content of Help| STR: content is display as base 11| 																																Display
-In| 		Set the value and type of Help from the user's input| STR: content is input as base 10| 																									In Str (put the user's input in Help)
-Add| 		Split the content of Help and make the sum of the 2 parts| INT, convert the content to ascii and back| 																						Add
-Reduce| 	Split the content of Help and make the substraction of the 2 parts| INT, convert the content to ascii and back| 																			Reduce
-Multiply| 	Split the content of Help and make the multiplication of the 2 parts| INT, convert the content to ascii and back| 																			Multiply
-Mod| 		Split the content of Help and make the modulo of the 2 parts| INT, convert the content to ascii and back| 																					Mod
-Reverse| 	STR: multiply by -1 INT: upper case to lower case and lower case to upper case|| 																											Reverse
-If| 		Check if Help is < 0| INT: use the sum of the ascii value of the characters| 																												If Display (Print Help if Help < 0)
-Move| 		Move the currently executed instruction to the value in Help| STR: use the number written next to the instruction\nfollow every Move it finds on the way if it goes in the same direction| 	Move 1 (move to the first instruction)
-Run|		Execute the code from the Help variables||																																					Run
+|Command|    Description|    Note|                                                                                                                                                                       Example|
+|§Help| 		set the value and type of Help to the value and type you want| STR values are given in base 7| 																								Help 14 Str (put 11 in Help)|
+|§Put| 		Adds a value at the end of Int or Str|| 																																					Put Str (put the value of Help in Str)|
+|§Ilen| 		Sets the Index of And to the value you want|| 																																				Ilen 5 (put 5 as index of And)|
+|§Ipset| 		Sets the length of And to the value you want|| 																																				Ipset 8 (put 8 as length of And)|
+|§Split| 		Store the part of int/str given by And in Help|| 																																			Split Int (overide Help with the characters of Int selected by And)|
+|§Display| 	Display content of Help| STR: content is display as base 11| 																																Display|
+|§In| 		Set the value and type of Help from the user's input| STR: content is input as base 10| 																									In Str (put the user's input in Help)|
+|§Add| 		Split the content of Help and make the sum of the 2 parts| INT, convert the content to ascii and back| 																						Add|
+|§Reduce| 	Split the content of Help and make the substraction of the 2 parts| INT, convert the content to ascii and back| 																			Reduce|
+|§Multiply| 	Split the content of Help and make the multiplication of the 2 parts| INT, convert the content to ascii and back| 																			Multiply|
+|§Mod| 		Split the content of Help and make the modulo of the 2 parts| INT, convert the content to ascii and back| 																					Mod|
+|§Reverse| 	STR: multiply by -1 INT: upper case to lower case and lower case to upper case|| 																											Reverse|
+|§If| 		Check if Help is < 0| INT: use the sum of the ascii value of the characters| 																												If Display (Print Help if Help < 0)|
+|§Move| 		Move the currently executed instruction to the value in Help| STR: use the number written next to the instruction\nSTR: follow every Move it finds on the way if it goes in the same direction| 	Move 1 (move to the first instruction)|
+|§Run|		Execute the code from the Help variables||																																					Run|
 
----
+# code examples:
 
-code examples:
-
-Hello world:
+## Hello world:
 ```
 6iA€c.O&i
 :JyµB0JyzYWVçWs+oVQNJ6
@@ -131,13 +153,13 @@ Display
 Help Hello World Int
 ```
 
-Cat program:
+## Cat program:
 ```
 6iA€c.O&i
 =m÷&EQm÷J6
 ```
 Converted version of the code:
 ```
-Display:
+Display
 In Int
 ```

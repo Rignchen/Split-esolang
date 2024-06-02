@@ -4,6 +4,8 @@
 !test/*.split
 # all files made for me to code faster :)
 my_code/
+# generated files
+*.mediawiki
 
 ## Basic python gitignore
 
