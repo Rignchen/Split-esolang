@@ -127,6 +127,15 @@ while index < len(file_content):
 		out += [line]
 	index += 1
 
+# Categoies
+out += [
+	"",
+	"[[Category:Languages]]",
+	f"[[Category:{date.today().year}]]",
+	"[[Category:Turing complete]]",
+	"[[Category:Implemented]]"
+]
+
 write_file(file + ".mediawiki", "\n".join(out))
 print("Done.")
 
