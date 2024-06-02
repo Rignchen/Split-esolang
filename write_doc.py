@@ -86,6 +86,10 @@ if not file_content[0].startswith(r"{{infobox proglang"):
 		f"|files=<code>.{dir_name.lower()}</code>",
 		r"}}",""
 	]
+else:
+	while index < len(file_content) and not file_content[index].startswith(r"}}"):
+		out += [file_content[index]]
+		index += 1
 
 # read doc file
 while index < len(file_content):

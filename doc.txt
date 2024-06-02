@@ -1,3 +1,13 @@
+{{infobox proglang
+|name=Split
+|author=[[User:Rignchen|Rignchen]]
+|year=[[:Category:2024|2024]]
+|memsys=
+|dimensions=One-dimensional languages
+|class=[[:Category:Turing complete|Turing complete]]
+|refimpl=[https://github.com/Rignchen/Split-esolang.git Split]
+|files=<code>.split</code>, 
+}}
 # The language:
 
 ## Conversion:
