@@ -25,6 +25,8 @@ REGEX = {
 	"title": "^#+ .+$",
 	"code": "^```$",
 	"comment": "^\[[^\]\[]+\]: <> \(.+\)$\n", # this is markdown comment syntax
+	"mediawiki_template_start": r"^\{\{",
+	"mediawiki_template_end": r"\}\}$",
 }
 CONST_TEXT = {
 	"line_break": "<br>"
@@ -65,6 +67,12 @@ def code():
 		out += [f" {line}"]
 		index += 1
 	out += [""]
+def mediawiki_template():
+	global index, out
+	while index < len(file_content) and not re.match(REGEX["mediawiki_template_end"], file_content[index]):
+		out += [file_content[index]]
+		index += 1
+	out += [file_content[index]]
 
 # get wifi page credentials
 if not file_content[0].startswith(r"{{infobox proglang"):
@@ -86,10 +94,6 @@ if not file_content[0].startswith(r"{{infobox proglang"):
 		f"|files=<code>.{dir_name.lower()}</code>",
 		r"}}",""
 	]
-else:
-	while index < len(file_content) and not file_content[index].startswith(r"}}"):
-		out += [file_content[index]]
-		index += 1
 
 # read doc file
 while index < len(file_content):
@@ -106,6 +110,8 @@ while index < len(file_content):
 		# get the number of # at the beginning of the line
 		n = len(re.match("^#+", line).group())
 		out += [f"{'='*(n+1)}{line[n+1:].title()}{'='*(n+1)}"]
+	elif re.match(REGEX["mediawiki_template_start"], line):
+		mediawiki_template()
 	else:
 		line = line.strip()
 		if len(line) > 0 and index + 1 < len(file_content) and len(file_content[index+1].strip()) > 0:
