@@ -73,6 +73,27 @@ def mediawiki_template():
 		out += [file_content[index]]
 		index += 1
 	out += [file_content[index]]
+def text():
+	global index, out
+	line = file_content[index]
+	line = line.strip()
+	if len(line) > 0 and index + 1 < len(file_content) and len(file_content[index+1].strip()) > 0:
+		has_next = True
+		for i in REGEX.values():
+			if re.match(i, file_content[index+1]):
+				has_next = False
+				break
+		if has_next:
+			line += CONST_TEXT["line_break"]
+	if len(line) > 0 and index > 0 and line[0].islower():
+		has_no_previous = False
+		for i in REGEX.values():
+			if re.match(i, file_content[index-1]):
+				has_no_previous = True
+				break
+		if has_no_previous or len(file_content[index-1].strip()) == 0:
+			line = line[0].upper() + line[1:]
+	out += [line]
 
 # get wifi page credentials
 if not file_content[0].startswith(r"{{infobox proglang"):
@@ -113,24 +134,7 @@ while index < len(file_content):
 	elif re.match(REGEX["mediawiki_template_start"], line):
 		mediawiki_template()
 	else:
-		line = line.strip()
-		if len(line) > 0 and index + 1 < len(file_content) and len(file_content[index+1].strip()) > 0:
-			has_next = True
-			for i in REGEX.values():
-				if re.match(i, file_content[index+1]):
-					has_next = False
-					break
-			if has_next:
-				line += CONST_TEXT["line_break"]
-		if len(line) > 0 and index > 0 and line[0].islower():
-			has_no_previous = False
-			for i in REGEX.values():
-				if re.match(i, file_content[index-1]):
-					has_no_previous = True
-					break
-			if has_no_previous or len(file_content[index-1].strip()) == 0:
-				line = line[0].upper() + line[1:]
-		out += [line]
+		text()
 	index += 1
 
 # Categoies
